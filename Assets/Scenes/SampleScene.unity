@@ -429,6 +429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5181fc042fd4204499a8b056160e24d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAnim: {fileID: 326004617}
+  animatorBounce: {fileID: 9100000, guid: 2248c3e3e6de71847a6b18355022fecb, type: 2}
+  animatorIdle: {fileID: 9100000, guid: 7e5b680169ef8ce44b863e78cb54485f, type: 2}
   moveSpeed: 5
   bounceForce: 10
   minX: -9

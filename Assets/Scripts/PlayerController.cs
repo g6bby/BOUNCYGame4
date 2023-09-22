@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Animator playerAnim;
+    public RuntimeAnimatorController animatorBounce;
+    public RuntimeAnimatorController animatorIdle;
+    private bool isCollidingWithItem = false;
+
+
+
     public float moveSpeed = 5.0f;
     public float bounceForce = 10.0f;
 
@@ -14,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
     }
 
     private void Update()
@@ -38,6 +46,30 @@ public class PlayerController : MonoBehaviour
 
             Rigidbody2D itemRb = collision.gameObject.GetComponent<Rigidbody2D>();
             itemRb.velocity = bounceDirection * bounceForce;
+
+            playerAnim.runtimeAnimatorController = animatorBounce;
+
+            isCollidingWithItem = true;
+
+        }
+    }
+
+    private IEnumerator DelayedIdle()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (isCollidingWithItem)
+        {
+            playerAnim.runtimeAnimatorController = animatorIdle;
+        }
+    }
+
+     private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            StartCoroutine(DelayedIdle());
+
         }
     }
 }
