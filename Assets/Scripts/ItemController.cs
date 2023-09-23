@@ -22,5 +22,13 @@ public class ItemController : MonoBehaviour
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, minX, maxX);
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, minY, maxY);
         transform.position = clampedPosition;
+
+        if (clampedPosition.y > 10 || clampedPosition.y < -10)
+        {
+            Destroy(gameObject);
+
+        }
     }
+
+
 }
