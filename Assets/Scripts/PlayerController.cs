@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class PlayerController : MonoBehaviour
     private bool isCollidingWithItem = false;
 
     public int score = 0;
+    public int lives = 3;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI livesText;
 
     public float moveSpeed = 5.0f;
     public float bounceForce = 10.0f;
@@ -49,6 +52,20 @@ public class PlayerController : MonoBehaviour
 
                 Destroy(item);
             }
+
+            if (yPosition < -7)
+            {
+                lives--;
+                livesText.text = "LIVES: " + lives.ToString();
+
+                Destroy(item);
+            }
+        }
+
+        if (lives == 0)
+        {
+            SceneManager.LoadScene("GameOver");
+
         }
     }
 
