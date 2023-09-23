@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public RuntimeAnimatorController animatorIdle;
     private bool isCollidingWithItem = false;
 
-
+    public int score = 0;
+    public TextMeshProUGUI scoreText;
 
     public float moveSpeed = 5.0f;
     public float bounceForce = 10.0f;
@@ -21,21 +24,32 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
     }
 
     private void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-
         Vector2 movement = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
-
         rb.velocity = movement;
 
         Vector3 clampedPosition = transform.position;
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, minX, maxX);
-        //clampedPosition.y = Mathf.Clamp(clampedPosition.y, minY, maxY);
         transform.position = clampedPosition;
+
+        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+
+        foreach (GameObject item in items)
+        {
+            float yPosition = item.transform.position.y;
+            
+            if (yPosition > 7)
+            {
+                score++;
+                scoreText.text = "SCORE: " + score.ToString();
+
+                Destroy(item);
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -50,7 +64,6 @@ public class PlayerController : MonoBehaviour
             playerAnim.runtimeAnimatorController = animatorBounce;
 
             isCollidingWithItem = true;
-
         }
     }
 
@@ -64,13 +77,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-     private void OnCollisionExit2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Item"))
         {
             StartCoroutine(DelayedIdle());
-
         }
     }
 }
-
