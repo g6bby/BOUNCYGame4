@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
     }
 
     private void Update()
@@ -100,5 +101,11 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(DelayedIdle());
         }
+    }
+
+    public void SaveScore()
+    {
+        PlayerPrefs.SetInt("Score", score);
+        PlayerPrefs.Save();
     }
 }

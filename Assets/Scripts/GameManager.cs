@@ -7,16 +7,13 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    private PlayerController playerController;
-    public TextMeshProUGUI scoreText;
-    
-
-    private void Update()
-    {
-        scoreText.text = "Your score is: " + playerController.score.ToString();
-    }
 
     public void RestartGame()
+    {
+        SceneManager.LoadScene("IntroScene");
+    }
+
+    public void StartGame()
     {
         SceneManager.LoadScene("SampleScene");
     }

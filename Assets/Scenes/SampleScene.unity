@@ -593,7 +593,7 @@ MonoBehaviour:
   scoreText: {fileID: 1893936437}
   livesText: {fileID: 215377941}
   moveSpeed: 10
-  bounceForce: 20
+  bounceForce: 30
   minX: -9
   maxX: 9
   minY: 0

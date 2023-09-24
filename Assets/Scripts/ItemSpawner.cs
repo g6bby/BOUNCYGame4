@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    public GameObject[] itemPrefabs;   
-    public float spawnInterval = 3.0f; 
-    public float spawnRadius = 5.0f;   
+    public GameObject[] itemPrefabs;
+    public float initialSpawnInterval = 3.0f; 
+    public float spawnRadius = 5.0f;
 
     private Transform[] spawnPoints;
+    private float currentSpawnInterval; 
 
     private void Start()
     {
@@ -18,6 +19,8 @@ public class ItemSpawner : MonoBehaviour
             spawnPoints[i] = transform.GetChild(i);
         }
 
+        currentSpawnInterval = initialSpawnInterval; 
+
         StartCoroutine(SpawnItems());
     }
 
@@ -26,15 +29,17 @@ public class ItemSpawner : MonoBehaviour
         while (true)
         {
             Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
             GameObject randomItemPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
-
             Vector2 randomPosition = (Vector2)randomSpawnPoint.position + Random.insideUnitCircle * spawnRadius;
 
             Instantiate(randomItemPrefab, randomPosition, Quaternion.identity);
 
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(currentSpawnInterval);
+
+            if (currentSpawnInterval > 1.0f)
+            {
+                currentSpawnInterval -= 0.1f;
+            }
         }
     }
 }
-
